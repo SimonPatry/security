@@ -29,7 +29,7 @@
                         <li><a href="index.php?p=home">Accueil</a></li>
                         <li><a href="index.php?p=about">About</a></li>
                         <?php if($session::online() === false) : ?> 
-                        <li><a href="index.php?p=register">Inscription</a></li>
+                        <li><a href="index.php?p=dashboard">Utilisateurs</a></li>
                         <li><a href="index.php?p=userConnect">Connexion</a></li>
                         <?php else : ?>
                         <li><a href="index.php?p=espaceUser">Mon espace</a></li>

@@ -9,8 +9,7 @@ class User extends Connect {
     protected $_pdo;
     
     public function __construct(){
-        
-    $this->_pdo = $this->connexion();
+        $this->_pdo = $this->connexion();
     }
     
     public function addUser($login,$password,$mail){
@@ -29,43 +28,26 @@ class User extends Connect {
         
     }
 
-    public function recupUserByMail($mail){
+    public function recupUserByLogin($login){
     
-    $sql = "SELECT `id`, `login`, `password`, `mail`, `creation_date` FROM `user` WHERE mail = :mail";
+    $sql = "SELECT `id`, `login`, `password`, `mail`, `creation_date` FROM `user` WHERE login = :login";
     $query = $this->_pdo->prepare($sql);
     $query->execute([
-            ':mail' => $mail,
+            ':login' => $login,
         ]);
     return $query->fetch(\PDO::FETCH_ASSOC); 
     
     }
 
-    public function updatePassword($mail,$hashedPassword){
+    public function updatePassword($login,$hashedPassword){
         
-        $sql = "UPDATE user SET password = :password WHERE mail = :mail"; 
+        $sql = "UPDATE user SET password = :password WHERE login = :login"; 
         $query = $this->_pdo->prepare($sql); 
         $query->execute([
-                ':mail' => $mail,
+                ':login' => $login,
                 ':password'=> $hashedPassword,
         ]);
 
     }
-    
-    public function recupNumberTextsByUser($id){
-
-        $sql = "SELECT user.id, COUNT(texts.id) AS number_text
-                FROM user
-                INNER JOIN texts
-                ON user.id = texts.id_user
-                WHERE user.id = :id
-                GROUP BY user.id";
-
-        $query = $this->_pdo->prepare($sql);
-        $query->execute([
-                ':id' => $id,
-        ]); 
-        return $query->fetch(\PDO::FETCH_ASSOC); 
-    }
-
 
 }
