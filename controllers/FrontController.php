@@ -1,8 +1,8 @@
 <?php 
 
-namespace App\controller; 
+namespace App\controllers; 
 
-use App\controller\FormController; 
+use App\controllers\FormController; 
 use App\model\User; 
 use App\core\{Connect,Session,Cookie}; 
 
@@ -68,16 +68,6 @@ class FrontController {
 
         $this->render('espaceUser');
     }
-
-
-
-   
-
-
-
-
-
-
     
     public function render(string $path,$array = []){
 
@@ -91,6 +81,6 @@ class FrontController {
         // $https = new Https; 
         
         $path = $path.".php"; 
-        require 'template/template.php';
+        require 'views/template.php';
     }
 }

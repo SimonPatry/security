@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\controller;
+namespace App\controllers;
 
 use App\model\User;
 use App\core\{ Session, Connect,Cookie };

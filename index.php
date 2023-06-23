@@ -1,6 +1,6 @@
 <?php 
 use App\core\{Autoloader};
-use App\controller\FrontController;
+use App\controllers\FrontController;
 
 
 session_start(); 
@@ -17,7 +17,7 @@ if(isset($_GET['p'])):
     (method_exists(FrontController::class, $method)) ? $routeur->$method() : $routeur->index(); 
 
 else: 
-    header('Location: index.php?p=home'); 
+   header('Location: index.php?p=home'); 
     exit; 
 
 endif;

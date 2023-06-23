@@ -7,9 +7,9 @@ use \PDO;
 class Connect{
     
     protected $_host = 'localhost';
-    protected $_dbName = 'security3wa' ;
-    protected $_user = 'Marie' ;
-    protected $_pass = 'SjzEteZO3BQx2oMJ';
+    protected $_dbName = 'secu' ;
+    protected $_user = 'root' ;
+    protected $_pass = '';
     
 
     public function connexion(){
