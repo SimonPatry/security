@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\core; 
 use \PDO;
@@ -9,7 +9,7 @@ class Connect{
     protected $_host = 'localhost';
     protected $_dbName = 'secu' ;
     protected $_user = 'root' ;
-    protected $_pass = '123456';
+    protected $_pass = 'R!8q5rSRVe]XmC3';
     
 
     public function connexion(){
@@ -23,6 +23,6 @@ class Connect{
         
         return $pdo;
         
-    }
+}
 
 }

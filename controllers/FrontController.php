@@ -38,18 +38,17 @@ class FrontController {
             $form   = new FormController(new User());
             $messages = $form->loginForm($_POST);
 
-        
         endif;
         
         
         $this->render('userConnect', [ 'messages' => ($messages) ?? null,
-                                           'cookie'  => new Cookie ]);
+                                           'cookie'  => new Cookie(new User()) ]);
     }
 
      public function logout(){
         
         Session::deconnect();
-        
+        Cookie::deleteCookie($_SESSION['jwt']);
         header('Location: index.php');
         exit;
     }

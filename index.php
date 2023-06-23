@@ -1,6 +1,13 @@
 <?php 
+
 use App\core\{Autoloader};
 use App\controllers\FrontController;
+
+// Looing for .env at the root directory
+require_once __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 
 session_start(); 

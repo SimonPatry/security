@@ -18,7 +18,7 @@
                 </ul>
             <?php    }  ?>
 
-            <form action="index.php?p=userConnect" method="POST" class="form-register">
+            <form method="POST" class="form-register">
                 <div>
                     <input type="text" class="form-control" id="username" name="username" placeholder="Votre utilisateurs">
                 </div>
@@ -35,9 +35,9 @@
                         <a href="index.php">retourner a l'accueil</a>
                         <a href="index.php?p=logout">Se déconnecter</a> 
             <?php endif; ?>
-
+            <script src="jwt.js"></script>
         </section>
-
     </main>
 </body>
 </html>
+

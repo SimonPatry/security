@@ -68,8 +68,7 @@
                         </div>
                 </div>
             </div>
-
-
+            <div id="user-infos"></div>
         </div>
         <a href="#haut" class="haut-page"><i class="fas fa-arrow-alt-circle-up"></i></a>
 

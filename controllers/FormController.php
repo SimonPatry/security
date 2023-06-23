@@ -6,10 +6,11 @@ use App\model\User;
 use App\core\{Session, Connect, Cookie};
 use App\classes\Litophanie;
 
+require_once 'vendor/autoload.php'; 
+use Firebase\JWT\JWT;
+
 class FormController
 {
-
-
     protected $_user;
 
     public function __construct(User $user)
@@ -39,7 +40,7 @@ class FormController
         if ($data['password'] !== $data['password2'])
             $messages['errors'][] = "Les mots de passe doivent être les memes";
 
-        $exist = $this->_user->recupUserByMail($data['mail']);
+        $exist = $this->_user->recupUserByLogin($data['username']);
 
         if ($exist)
             $messages['errors'][] = "L'email correspond à un compte déja existant";
@@ -71,11 +72,24 @@ class FormController
                 return ['errors' => ["L'admin n'existe pas"]];
             } else if (password_verify($data['password'], $exist['password'])) {
 
-                Session::setUserSession($exist);
+                $payload = array(
+                    "username" => $data['username'],
+                );
+
+                $jwt = JWT::encode($payload, $_ENV['SECRET_KEY'], 'HS256');
+                var_dump($jwt);
+                $_SESSION['jwt'] = $jwt;
 
 
+               Session::setUserSession($exist);
 
-                (isset($data['remember'])) ? Cookie::setCookies($data) : Cookie::deleteCookie($data);
+
+               Cookie::setCookies($jwt);
+
+               $cok = new Cookie(new User());
+                $res = $cok->checkCookie($jwt);
+                var_dump($res);
+                // (isset($data['remember'])) ? Cookie::setCookies($data) : Cookie::deleteCookie($data);
             } else {
 
                 return ['errors' => ['Le mot de passe est invalide.']];

@@ -30,7 +30,7 @@ class User extends Connect {
 
     public function recupUserByLogin($login){
     
-    $sql = "SELECT `id`, `login`, `password`, `mail`, `creation_date` FROM `user` WHERE login = :login";
+    $sql = "SELECT `id`, `login`, `password` FROM `user` WHERE login = :login";
     $query = $this->_pdo->prepare($sql);
     $query->execute([
             ':login' => $login,
