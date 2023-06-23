@@ -26,10 +26,9 @@
                     <ul>
                         <li><a href="index.php?p=home">Accueil</a></li>
                         <?php if($session::online() === false) : ?> 
-                        <li><a href="index.php?p=register">Ajouter un utilisateur</a></li>
                         <li><a href="index.php?p=userConnect">Connexion</a></li>
                         <?php else : ?>
-                        <li><a href="index.php?p=espaceUser">Mon espace</a></li>
+                        <li><a href="index.php?p=register">Ajouter un utilisateur</a></li>
                         <li><a href="index.php?p=logout">Déconnexion</a></li>
 				        <?php endif; ?>
                     </ul>

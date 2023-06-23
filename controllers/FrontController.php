@@ -19,7 +19,7 @@ class FrontController {
         // (Session::online()) ? Https::redirect('index.php') : '';
         Session::online(); 
 
-        $message = [];
+        $messages = [];
         if($_POST):
 
             $form = new FormController(new User()); 
@@ -29,7 +29,6 @@ class FrontController {
 
         $recupUsers = new User(); 
         $users = $recupUsers->recupAllUser();
-        // var_dump($users);  
 
 
         $this->render('registerUser', ['messages' => ($messages) ?? null,
@@ -56,7 +55,7 @@ class FrontController {
      public function logout(){
         
         Session::deconnect();
-        Cookie::deleteCookie($_SESSION['jwt']);
+        Cookie::deleteCookie();
         header('Location: index.php');
         exit;
     }

@@ -21,9 +21,6 @@ class Autoloader {
         
         $class = str_replace("App", ".", $class);
         
-        // var_dump($class);
-     
-        
         require_once $class.'.php';
         
         

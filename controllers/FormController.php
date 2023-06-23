@@ -40,7 +40,7 @@ class FormController {
         }
     
         // Contrôle de l'image
-        if(isset($_FILES['img'])){
+        if(isset($_FILES['img']) && $_FILES['img']['tmp_name'] != ""){
             $uploadedFile = $_FILES['img']['tmp_name'];
             $fileExtension = strtolower(pathinfo($_FILES['img']['name'], PATHINFO_EXTENSION));
             $fileType = mime_content_type($uploadedFile);
@@ -81,7 +81,8 @@ class FormController {
         }
 
         if(empty($messages['errors'])){
-            $this->_user->addUser($data['login'], $data['password'], $data['description'], $data['age'], $newFileName);
+            $role = "user";
+            $this->_user->addUser($data['login'], $data['password'], $data['description'], $data['age'], $newFileName, $role, $_COOKIE['token']);
             $messages['success'] = ['Inscription réussie !'];
 
         }
@@ -100,7 +101,6 @@ class FormController {
 
             $exist = $this->_user->recupUserByLogin($data['login']);
 
-            var_dump($exist);
 
             if (!$exist) {
 
@@ -108,11 +108,10 @@ class FormController {
             } else if (password_verify($data['password'], $exist['password'])) {
 
                 $payload = array(
-                    "username" => $data['username'],
+                    "login" => $data['login'],
                 );
 
                 $jwt = JWT::encode($payload, $_ENV['SECRET_KEY'], 'HS256');
-                var_dump($jwt);
                 $_SESSION['jwt'] = $jwt;
 
 
@@ -120,11 +119,6 @@ class FormController {
 
 
                Cookie::setCookies($jwt);
-
-               $cok = new Cookie(new User());
-                $res = $cok->checkCookie($jwt);
-                var_dump($res);
-                // (isset($data['remember'])) ? Cookie::setCookies($data) : Cookie::deleteCookie($data);
             } else {
 
                 return ['errors' => ['Le mot de passe est invalide.']];

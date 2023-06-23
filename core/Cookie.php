@@ -1,7 +1,7 @@
 <?php 
 
 namespace App\core;
-use App\model\User;
+use App\models\User;
 
 require_once 'vendor/autoload.php'; 
 use Firebase\JWT\JWT;
@@ -16,9 +16,8 @@ class Cookie{
         $this->_user = $user;
     }
 
-    public static function deleteCookie(string $cookie) :void{
-            setcookie($cookie);                                                
-            unset($_COOKIE[$cookie]);
+    public static function deleteCookie() :void{
+        unset($_COOKIE['token']);
     }
     
 
@@ -32,7 +31,7 @@ class Cookie{
         
         $data = JWT::decode($cookie, $jwt_key);
 
-        $exist = $this->_user->recupUserByLogin($data->username);
+        $exist = $this->_user->recupUserByLogin($data->login);
         if (!$exist) {
             return false;
         } else {

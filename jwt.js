@@ -13,7 +13,7 @@ loginButton.addEventListener('submit', async (e) => {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
     },
     body: JSON.stringify({
-      username: form.inputEmail.value,
+      login: form.inputLogin.value,
       password: form.inputPassword.value
     })
   })

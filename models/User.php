@@ -2,6 +2,7 @@
 
 namespace App\models;
 use App\core\Connect;
+use App\core\Cookie;
 use \PDO;
 
 class User extends Connect {
@@ -12,12 +13,15 @@ class User extends Connect {
         $this->_pdo = $this->connexion();
     }
     
-    public function addUser($login,$password,$description,$age,$img){
+    public function addUser($login,$password,$description,$age,$img, $role, $jwt){
 
-    
+
+        $cok = new Cookie(new User());
+        $res = $cok->checkCookie($jwt);
+
         $password = password_hash($password, PASSWORD_DEFAULT); // je hash mon mot de passe 
     
-        $sql = "INSERT INTO `user`( `login`, `password`,`description`,`age`,`img`) 
+        $sql = "INSERT INTO `user`( `login`, `password`,`description`,`age`,`img`, `role`) 
             VALUES (:login,:password,:description,:age,:img)";
         $query = $this->_pdo->prepare($sql);
         $query->execute([
@@ -25,7 +29,8 @@ class User extends Connect {
             ':password' => $password,
             ':description'=>$description,
             ':age' => $age,
-            ':img' => $img
+            ':img' => $img,
+            ':role' => $role
         ]);
         
     }
