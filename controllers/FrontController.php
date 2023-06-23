@@ -3,7 +3,7 @@
 namespace App\controllers; 
 
 use App\controllers\FormController; 
-use App\model\User; 
+use App\models\User; 
 use App\core\{Connect,Session,Cookie}; 
 
 
@@ -26,7 +26,14 @@ class FrontController {
         
         endif; 
 
-        $this->render('register', ['messages' => ($messages) ?? null]);
+        $recupUsers = new User(); 
+        $users = $recupUsers->recupAllUser();
+        // var_dump($users);  
+
+
+        $this->render('registerUser', ['messages' => ($messages) ?? null,
+                                        'users' => $users,
+                                                                ]);
     }
 
     public function userConnect(){
@@ -56,17 +63,21 @@ class FrontController {
 
    
 
-    public function forgetPassword(){
+    // public function forgetPassword(){
 
-        $form = new FormController(new User()); 
-        $messages = $form->passwordForm($_POST);
+    //     $form = new FormController(new User()); 
+    //     $messages = $form->passwordForm($_POST);
 
-        $this->render('forgetPassword', ['messages' => ($messages) ?? null]);
-    }
+    //     $this->render('forgetPassword', ['messages' => ($messages) ?? null]);
+    // }
 
     public function espaceUser(){
 
         $this->render('espaceUser');
+    }
+
+    public function addUser(){
+
     }
     
     public function render(string $path,$array = []){
@@ -83,4 +94,6 @@ class FrontController {
         $path = $path.".php"; 
         require 'views/template.php';
     }
+
+
 }

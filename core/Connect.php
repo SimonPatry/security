@@ -8,8 +8,8 @@ class Connect{
     
     protected $_host = 'localhost';
     protected $_dbName = 'secu' ;
-    protected $_user = 'root' ;
-    protected $_pass = '';
+    protected $_user = 'Marie' ;
+    protected $_pass = 'SjzEteZO3BQx2oMJ';
     
 
     public function connexion(){
