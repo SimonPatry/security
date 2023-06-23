@@ -9,8 +9,7 @@ class User extends Connect {
     protected $_pdo;
     
     public function __construct(){
-        
-    $this->_pdo = $this->connexion();
+        $this->_pdo = $this->connexion();
     }
     
     public function addUser($login,$password,$description,$age,$img){
@@ -31,6 +30,7 @@ class User extends Connect {
         
     }
 
+
     public function recupAllUser(){
         $sql = "SELECT `login`, `age`,`img`,`description` FROM user";
         $query = $this->_pdo->prepare($sql);
@@ -38,14 +38,13 @@ class User extends Connect {
     return $query->fetchAll(\PDO::FETCH_ASSOC); 
     }
 
-
     public function recupUserByLogin($login){
     
     $sql = "SELECT `id`, `login`, `password` FROM `user` WHERE login = :login";
     $query = $this->_pdo->prepare($sql);
     $query->execute([
         ':login' => $login,
-        ]);
+    ]);
     return $query->fetch(\PDO::FETCH_ASSOC); 
     
     }
@@ -60,22 +59,5 @@ class User extends Connect {
         ]);
 
     }
-    
-    public function recupNumberTextsByUser($id){
-
-        $sql = "SELECT user.id, COUNT(texts.id) AS number_text
-                FROM user
-                INNER JOIN texts
-                ON user.id = texts.id_user
-                WHERE user.id = :id
-                GROUP BY user.id";
-
-        $query = $this->_pdo->prepare($sql);
-        $query->execute([
-                ':id' => $id,
-        ]); 
-        return $query->fetch(\PDO::FETCH_ASSOC); 
-    }
-
 
 }

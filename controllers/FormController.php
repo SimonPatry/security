@@ -1,6 +1,10 @@
-<?php 
+<?php
 
 namespace App\controllers;
+
+require_once 'vendor/autoload.php'; 
+use Firebase\JWT\JWT;
+
 
 use App\models\User;
 use App\core\{ Session, Connect, Cookie };
@@ -79,35 +83,57 @@ class FormController {
         if(empty($messages['errors'])){
             $this->_user->addUser($data['login'], $data['password'], $data['description'], $data['age'], $newFileName);
             $messages['success'] = ['Inscription réussie !'];
+
         }
-        
+
         return $messages;
     }
 
-    public function loginForm(array $data){
-        $messages = [];
-        
-        // Vérification des champs obligatoires
-        if(empty($data['password']) || empty($data['login'])){
-            $messages['errors'][] = "Veuillez remplir tous les champs.";
-        } else { 
-            $exist = $this->_user->recupUserByLogin($data['login']);
-            
-            if(!$exist){
-                $messages['errors'][] = "Le login n'existe pas.";
-            } else if (password_verify($data['password'], $exist['password'])) {  
-                Session::setUserSession($exist);
+    public function loginForm(array $data)
+    {
 
-                if(isset($data['remember'])){
-                    Cookie::setCookies($data);
-                } else {
-                    Cookie::deleteCookie($data);
-                }
+        // verif 1
+        if (empty($data['password']) || empty($data['login'])) {
+
+            return ['errors' => ["veuillez remplir tous les champs"]];
+        } else {
+
+            $exist = $this->_user->recupUserByLogin($data['login']);
+
+            var_dump($exist);
+
+            if (!$exist) {
+
+                return ['errors' => ["L'admin n'existe pas"]];
+            } else if (password_verify($data['password'], $exist['password'])) {
+
+                $payload = array(
+                    "username" => $data['username'],
+                );
+
+                $jwt = JWT::encode($payload, $_ENV['SECRET_KEY'], 'HS256');
+                var_dump($jwt);
+                $_SESSION['jwt'] = $jwt;
+
+
+               Session::setUserSession($exist);
+
+
+               Cookie::setCookies($jwt);
+
+               $cok = new Cookie(new User());
+                $res = $cok->checkCookie($jwt);
+                var_dump($res);
+                // (isset($data['remember'])) ? Cookie::setCookies($data) : Cookie::deleteCookie($data);
             } else {
-                $messages['errors'][] = "Le mot de passe est invalide.";
+
+                return ['errors' => ['Le mot de passe est invalide.']];
             }
         }
-        
-        return $messages;
+
+        header('location: index.php');
+        exit;
     }
-}
+
+
+}    
